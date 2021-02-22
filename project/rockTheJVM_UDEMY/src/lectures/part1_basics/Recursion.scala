@@ -91,6 +91,7 @@ object Recursion extends App {
 
   println(anotherFactorial(5000))
 
+
   @tailrec
   def concatenateTRec(times: Int, text: String, accumulator: String): String = {
     if (times <= 0)
@@ -105,7 +106,7 @@ object Recursion extends App {
     @tailrec
     def isPrime_TREC(times: Int, isStillPrime: Boolean): Boolean = {
       if (!isStillPrime) false
-      if (times <= 1) true
+      else if (times <= 1) true
       else
         isPrime_TREC(times - 1, number % times != 0 && isStillPrime)
 
@@ -141,3 +142,14 @@ object Recursion extends App {
   println("Fibonacci TRec: " + fibonacci(8)) //1,2,3,5,8,13, (21 - result)
 
 }
+
+/**
+ * TAIL RECURSION  vs  RECURSION
+ * TAIL RECURSION -> não rebenta, não envia tudo para a stack . A lógica do acumulador, onde guarda sempre o útlimo valor. À medida que calcula novos valores guarda sempre o último, em vez de enviar os resultados para a stack, e depois no final percorrer a stack e dar o valor final. Lembrar do exemplo do fatorial, onde sem tail rec, calcular o fatorial de 5,000 é impossível porque rebenta mas ao utilizar TAIL REC já não rebenta. lógica de "executa e chama, executa e chama"
+ * RECURSON -> faz recursividade toda e mete os resultados todos na stack. É uma recursividade "normal"
+ *
+ Basicamente
+ In traditional recursion, the typical model is that you perform your recursive calls first, and then you take the return value of the recursive call and calculate the result. In this manner, you don't get the result of your calculation until you have returned from every recursive call.
+ In tail recursion, you perform your calculations first, and then you execute the recursive call, passing the results of your current step to the next recursive step. This results in the last statement being in the form of (return (recursive-function params)). Basically, the return value of any given recursive step is the same as the return value of the next recursive call.
+ The consequence of this is that once you are ready to perform your next recursive step, you don't need the current stack frame any more. This allows for some optimization. In fact, with an appropriately written compiler, you should never have a stack overflow snicker with a tail recursive call. Simply reuse the current stack frame for the next recursive step. I'm pretty sure Lisp does this.
+ * */
