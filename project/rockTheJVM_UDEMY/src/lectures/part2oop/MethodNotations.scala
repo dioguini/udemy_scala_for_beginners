@@ -67,25 +67,53 @@ object MethodNotations extends App {
   //Syntatic sugar examples:
 
   //infix (above on the top)
+  /**
+   Only works for methods with 1 parameter. Closed to "natural language"
+   -> mary.likes("Minions")
+   -> this line is the same as the one right above ->   mary likes "Inception"
+   */
 
   //prefix notation
   val x = -1 //equivalent with 1.unaru_-
   val y = 1.unary_-
 
   // "unary_" prefix only works with "-" , "+" , "~" and "!"
+  /**
+   *  println(!me) -> "!me" automatically calls "unary_!" method
+   *  */
   println(!me)
   println(me.unary_!) //the same as above
 
 
   //postfix
   //function that NOT RECEIVE ANY PARAMETERS have the property they can be used in a postfix notation
-  println(me.isAlive()) //commonly used because when reading the code, we can infer potential ambiguities
+  println(me.isAlive()) //commonly used because when reading the code, we can infer potential ambiguities like: mary isAlive -> while reading this because it's ntarual for us humans, we can not easily detect the postfix notation
   println(me isAlive()) //postfix notation
 
 
   //apply
   println(me.apply())
   println(me()) // -> acts like if "me" was a function, BECAUSE we have defined the "apply()" method above. When we use that syntax, compiler will look for the "apply" definition of the particular class
+
+
+  /*
+  Exercisses --> SEE MethodNOTATIONS_EXERCISES.scala class
+    1. Overload the + operator
+       Mary + "the rocjstar" RETURNS a new person "Mary (he rockstar)"
+
+    2. Add an age to the Person class
+       Add a unary + operator and RETURNS a new person with the age+1
+       +mary RETURNS mary with  the age incrementer
+
+    3. Add a "learns" method in the Person class that RETURNS "Mary learns Scala"
+       Add a learnsScala method (no params) and calls learns method with "Scala" as a parameter
+       Use it in postfix notation
+
+    4. Overload the apply method
+       mary.apply(2) that RETURNS "Mary watched Inception 2 times"
+
+   */
+
 
 
 }
