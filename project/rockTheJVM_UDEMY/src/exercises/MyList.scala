@@ -16,34 +16,31 @@ object testList extends App {
 
 }
 
+  abstract class MyList {
+    // This represents an immutable List, BECAUSE we are not modifying this instance, BUT YES returning a new List
+    // The methods that tells us that above, are "add" and "tail", because they RETURN A NEW LIST. The other ones, are just a simple "select"/"definition" of something
 
+    def head: Int
 
+    def tail: MyList
 
-abstract class MyList {
-  // This represents an immutable List, BECAUSE we are not modifying this instance, BUT YES returning a new List
-  // The methods that tells us that above, are "add" and "tail", because they RETURN A NEW LIST. The other ones, are just a simple "select"/"definition" of something
+    def isEmpty: Boolean
 
-  def head: Int
+    def add(element: Int): MyList
 
-  def tail: MyList
+    def printElements: String
 
-  def isEmpty: Boolean
-
-  def add(element: Int): MyList
-
-  def printElements: String
-
-  /*
+    /*
   polymorphic call
   -> toString method calls "printElements"
   -> when we call later "toString" method, the correct implementation of "printElements" will be called, that why this is a polymorphic call
    */
-  override def toString: String = {
-    "[" + printElements + "]"
+    override def toString: String = {
+      "[" + printElements + "]"
+    }
+
+
   }
-
-
-}
 
   object Empty extends MyList {
     def head: Int = throw new NoSuchElementException //does not make sense for an Empty list...
@@ -75,6 +72,4 @@ abstract class MyList {
     }
 
   }
-
-
 

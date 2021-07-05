@@ -2,8 +2,8 @@ package exercises
 
 
 object Generics_Exercise extends App {
-  val listOfIntegers: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, Empty)))
-  val listOfStrings: MyList[String] = new Cons("Hello", new Cons("everyone", Empty))
+  val listOfIntegers: MyCovarianceList[Int] = new ConsCovariance(1, new ConsCovariance(2, new ConsCovariance(3, EmptyCovariance)))
+  val listOfStrings: MyCovarianceList[String] = new ConsCovariance("Hello", new ConsCovariance("everyone", EmptyCovariance))
   println(listOfIntegers.toString)
   println(listOfStrings.toString)
 
@@ -13,20 +13,20 @@ object Generics_Exercise extends App {
 
 
 /**
- * The class belw, can be compared with MyList, on this package.
+ * The class below, can be compared with MyCovarianceList, on this package.
  */
 
-abstract class MyList[+A] {
+abstract class MyCovarianceList [+A] {
   // This represents an immutable List, BECAUSE we are not modifying this instance, BUT YES returning a new List
   // The methods that tells us that above, are "add" and "tail", because they RETURN A NEW LIST. The other ones, are just a simple "select"/"definition" of something
 
   def head: A
 
-  def tail: MyList[A]
+  def tail: MyCovarianceList[A]
 
-  def isEmpty: Boolean
+  def isEmptyCovariance: Boolean
 
-  def add[B >: A](element: B): MyList[B] //same as the Cats, Dogs and Animal example. See "add" method on part2oop.Generics
+  def add[B >: A](element: B): MyCovarianceList[B] //same as the Cats, Dogs and Animal example. See "add" method on part2oop.Generics
 
   def printElements: String
 
@@ -44,37 +44,37 @@ abstract class MyList[+A] {
 
 /*
 Lets see the below declarations:
-  val listOfIntegers: MyList[Int] = Empty
-  val listOfStrings: MyList[String] = Empty
-  "Empty" should be a proper value for both types of lists of Int and String
+  val listOfIntegers: MyCovarianceList[Int] = EmptyCovariance
+  val listOfStrings: MyCovarianceList[String] = EmptyCovariance
+  "EmptyCovariance" should be a proper value for both types of lists of Int and String
   But how do we do that?
 
 We're going to use "Nothing" below" because ??????
 * */
-object Empty extends MyList[Nothing] {
-  def head: Nothing = throw new NoSuchElementException //does not make sense for an Empty list...
+object EmptyCovariance extends MyCovarianceList[Nothing] {
+  def head: Nothing = throw new NoSuchElementException //does not make sense for an EmptyCovariance list...
 
-  def tail: MyList[Nothing] = throw new NoSuchElementException //does not make sense for an Empty list...
+  def tail: MyCovarianceList[Nothing] = throw new NoSuchElementException //does not make sense for an EmptyCovariance list...
 
-  def isEmpty: Boolean = true
+  def isEmptyCovariance: Boolean = true
 
-  def add[B >: Nothing](element: B): MyList[B] = new Cons(element, Empty) //when we add an element for the first time, list just have 1 element. So, "element" param is the head, and the tail of the list is Empty object
+  def add[B >: Nothing](element: B): MyCovarianceList[B] = new ConsCovariance(element, EmptyCovariance) //when we add an element for the first time, list just have 1 element. So, "element" param is the head, and the tail of the list is EmptyCovariance object
 
   def printElements: String = ""
 
 }
 
-class Cons[+A](h: A, t: MyList[A]) extends MyList[A] { //"Cons" must be Covariant, accordingly MyList
+class ConsCovariance[+A](h: A, t: MyCovarianceList[A]) extends MyCovarianceList[A] { //"ConsCovariance" must be Covariant, accordingly MyCovarianceList
   def head: A = h
 
-  def tail: MyList[A] = t
+  def tail: MyCovarianceList[A] = t
 
-  def isEmpty: Boolean = false
+  def isEmptyCovariance: Boolean = false
 
-  def add[B >: A](element: B): MyList[B] = new Cons(element, this) //the element is the one added, and the tail is the list itself ("this")
+  def add[B >: A](element: B): MyCovarianceList[B] = new ConsCovariance(element, this) //the element is the one added, and the tail is the list itself ("this")
 
   def printElements: String = {
-    if (t.isEmpty) "" + h
+    if (t.isEmptyCovariance) "" + h
     else {
       h + " " + t.printElements
     }
