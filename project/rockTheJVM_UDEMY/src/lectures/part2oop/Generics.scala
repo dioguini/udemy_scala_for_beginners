@@ -2,6 +2,21 @@ package lectures.part2oop
 
 object Generics extends App {
 
+
+  /**
+   Basic for this topic:
+   **Variance**
+   If B extends A, should List[B] extend List[A] ?
+   yes - covariant -> trait List[A+]
+   no - invariant (default) -> trait List[A]
+   no - contravariant (no way!!) -> trait List[-A]
+
+   **Bounded types**
+    solve the problem for defining generic methods that leads to an annoying variance problem
+   */
+
+
+
   //
   // class myList[A] { //A donates a Generic type
   class myList[+A] { //lists should be covariants
