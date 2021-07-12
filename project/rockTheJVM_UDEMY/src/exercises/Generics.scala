@@ -1,7 +1,7 @@
 package exercises
 
 
-object Generics_Exercise extends App {
+object Generics extends App {
   val listOfIntegers: MyCovarianceList[Int] = new ConsCovariance(1, new ConsCovariance(2, new ConsCovariance(3, EmptyCovariance)))
   val listOfStrings: MyCovarianceList[String] = new ConsCovariance("Hello", new ConsCovariance("everyone", EmptyCovariance))
   println(listOfIntegers.toString)

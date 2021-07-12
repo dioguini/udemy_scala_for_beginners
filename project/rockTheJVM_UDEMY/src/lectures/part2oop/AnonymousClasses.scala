@@ -59,4 +59,4 @@ object AnonymousClasses extends App {
 
 
 }
-}
+
