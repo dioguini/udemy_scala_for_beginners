@@ -1,12 +1,12 @@
 package exercises
 
-object OOPExercises extends App {
+object FPExercises extends App {
 
-  val listOfIntegers: MyOOPExerciseList[Int] = new ConsOOPExercise(1, new ConsOOPExercise(2, new ConsOOPExercise(3, EmptyOOPExercise)))
-  val cloneListOfIntegers: MyOOPExerciseList[Int] = new ConsOOPExercise(1, new ConsOOPExercise(2, new ConsOOPExercise(3, EmptyOOPExercise)))
-  val listOfStrings: MyOOPExerciseList[String] = new ConsOOPExercise("Hello", new ConsOOPExercise("everyone", EmptyOOPExercise))
+  val listOfIntegers: MyFPExerciseList[Int] = new ConsFPExercise(1, new ConsFPExercise(2, new ConsFPExercise(3, EmptyFPExercise)))
+  val cloneListOfIntegers: MyFPExerciseList[Int] = new ConsFPExercise(1, new ConsFPExercise(2, new ConsFPExercise(3, EmptyFPExercise)))
+  val listOfStrings: MyFPExerciseList[String] = new ConsFPExercise("Hello", new ConsFPExercise("everyone", EmptyFPExercise))
 
-  val anotherListOfIntegers: MyOOPExerciseList[Int] = new ConsOOPExercise(4, new ConsOOPExercise(5, new ConsOOPExercise(6, EmptyOOPExercise)))
+  val anotherListOfIntegers: MyFPExerciseList[Int] = new ConsFPExercise(4, new ConsFPExercise(5, new ConsFPExercise(6, EmptyFPExercise)))
 
 
   //case classes verifications
@@ -72,8 +72,8 @@ object OOPExercises extends App {
 
 
   println((listOfIntegers ++ anotherListOfIntegers).toString)
-  println(listOfIntegers.flatMap(new MyTransformer[Int, MyOOPExerciseList[Int]]{
-    override def transform(Elem: Int): MyOOPExerciseList[Int] = new ConsOOPExercise(Elem, new ConsOOPExercise(Elem+1, EmptyOOPExercise))
+  println(listOfIntegers.flatMap(new MyTransformer[Int, MyFPExerciseList[Int]]{
+    override def transform(Elem: Int): MyFPExerciseList[Int] = new ConsFPExercise(Elem, new ConsFPExercise(Elem+1, EmptyFPExercise))
   }).toString)
   //[1 2  2 3  3 4]
 
@@ -83,20 +83,20 @@ object OOPExercises extends App {
 
 
 /**
- * The class below, can be compared with MyOOPExerciseList, on this package.
+ * The class below, can be compared with MyFPExerciseList, on this package.
  */
 
-abstract class MyOOPExerciseList[+A] {
+abstract class MyFPExerciseList[+A] {
   // This represents an immutable List, BECAUSE we are not modifying this instance, BUT YES returning a new List
   // The methods that tells us that above, are "add" and "tail", because they RETURN A NEW LIST. The other ones, are just a simple "select"/"definition" of something
 
   def head: A
 
-  def tail: MyOOPExerciseList[A]
+  def tail: MyFPExerciseList[A]
 
-  def isEmptyOOPExercise: Boolean
+  def isEmptyFPExercise: Boolean
 
-  def add[B >: A](element: B): MyOOPExerciseList[B] //same as the Cats, Dogs and Animal example. See "add" method on part2oop.Generics
+  def add[B >: A](element: B): MyFPExerciseList[B] //same as the Cats, Dogs and Animal example. See "add" method on part2oop.Generics
 
   def printElements: String
 
@@ -111,63 +111,63 @@ abstract class MyOOPExerciseList[+A] {
 
 
   //Exercise3
-  def map[B](transformer: MyTransformer[A, B]): MyOOPExerciseList[B]
+  def map[B](transformer: MyTransformer[A, B]): MyFPExerciseList[B]
 
-  def flatMap[B](transformer: MyTransformer[A, MyOOPExerciseList[B]]): MyOOPExerciseList[B]
+  def flatMap[B](transformer: MyTransformer[A, MyFPExerciseList[B]]): MyFPExerciseList[B]
 
   //concatenation
-  def ++[B >: A](list: MyOOPExerciseList[B]): MyOOPExerciseList[B]
+  def ++[B >: A](list: MyFPExerciseList[B]): MyFPExerciseList[B]
 
   //since flatMap needs a concatenation we need to define this method
 
-  def filter(predicate: MyPredicate[A]): MyOOPExerciseList[A]
+  def filter(predicate: MyPredicate[A]): MyFPExerciseList[A]
 
 }
 
 /*
 Lets see the below declarations:
-  val listOfIntegers: MyOOPExerciseList[Int] = EmptyOOPExercise
-  val listOfStrings: MyOOPExerciseList[String] = EmptyOOPExercise
-  "EmptyOOPExercise" should be a proper value for both types of lists of Int and String
+  val listOfIntegers: MyFPExerciseList[Int] = EmptyFPExercise
+  val listOfStrings: MyFPExerciseList[String] = EmptyFPExercise
+  "EmptyFPExercise" should be a proper value for both types of lists of Int and String
   But how do we do that?
 
 We're going to use "Nothing" below" because ??????
 * */
-object EmptyOOPExercise extends MyOOPExerciseList[Nothing] { //"case" makes this object extremely powerful -> "equals" and "hash" are implemented OOTB , and it's serializable
-  def head: Nothing = throw new NoSuchElementException //does not make sense for an EmptyOOPExercise list...
+object EmptyFPExercise extends MyFPExerciseList[Nothing] { //"case" makes this object extremely powerful -> "equals" and "hash" are implemented OOTB , and it's serializable
+  def head: Nothing = throw new NoSuchElementException //does not make sense for an EmptyFPExercise list...
 
-  def tail: MyOOPExerciseList[Nothing] = throw new NoSuchElementException //does not make sense for an EmptyOOPExercise list...
+  def tail: MyFPExerciseList[Nothing] = throw new NoSuchElementException //does not make sense for an EmptyFPExercise list...
 
-  def isEmptyOOPExercise: Boolean = true
+  def isEmptyFPExercise: Boolean = true
 
-  def add[B >: Nothing](element: B): MyOOPExerciseList[B] = new ConsOOPExercise(element, EmptyOOPExercise) //when we add an element for the first time, list just have 1 element. So, "element" param is the head, and the tail of the list is EmptyOOPExercise object
+  def add[B >: Nothing](element: B): MyFPExerciseList[B] = new ConsFPExercise(element, EmptyFPExercise) //when we add an element for the first time, list just have 1 element. So, "element" param is the head, and the tail of the list is EmptyFPExercise object
 
   def printElements: String = ""
 
 
   //Exercise3
-  def map[B](transformer: MyTransformer[Nothing, B]): MyOOPExerciseList[B] = EmptyOOPExercise
+  def map[B](transformer: MyTransformer[Nothing, B]): MyFPExerciseList[B] = EmptyFPExercise
 
-  def filter(predicate: MyPredicate[Nothing]): MyOOPExerciseList[Nothing] = EmptyOOPExercise
+  def filter(predicate: MyPredicate[Nothing]): MyFPExerciseList[Nothing] = EmptyFPExercise
 
 
-  def ++[B >: Nothing](list: MyOOPExerciseList[B]): MyOOPExerciseList[B] = list //anything concatenated with empty ,is that thing
-  def flatMap[B](transformer: MyTransformer[Nothing, MyOOPExerciseList[B]]): MyOOPExerciseList[B] = EmptyOOPExercise
+  def ++[B >: Nothing](list: MyFPExerciseList[B]): MyFPExerciseList[B] = list //anything concatenated with empty ,is that thing
+  def flatMap[B](transformer: MyTransformer[Nothing, MyFPExerciseList[B]]): MyFPExerciseList[B] = EmptyFPExercise
 
 
 }
 
-class ConsOOPExercise[+A](h: A, t: MyOOPExerciseList[A]) extends MyOOPExerciseList[A] { //"ConsOOPExercise" must be Covariant, accordingly MyOOPExerciseList
+class ConsFPExercise[+A](h: A, t: MyFPExerciseList[A]) extends MyFPExerciseList[A] { //"ConsFPExercise" must be Covariant, accordingly MyFPExerciseList
   def head: A = h
 
-  def tail: MyOOPExerciseList[A] = t
+  def tail: MyFPExerciseList[A] = t
 
-  def isEmptyOOPExercise: Boolean = false
+  def isEmptyFPExercise: Boolean = false
 
-  def add[B >: A](element: B): MyOOPExerciseList[B] = new ConsOOPExercise(element, this) //the element is the one added, and the tail is the list itself ("this")
+  def add[B >: A](element: B): MyFPExerciseList[B] = new ConsFPExercise(element, this) //the element is the one added, and the tail is the list itself ("this")
 
   def printElements: String = {
-    if (t.isEmptyOOPExercise) "" + h
+    if (t.isEmptyFPExercise) "" + h
     else {
       h + " " + t.printElements
     }
@@ -175,30 +175,30 @@ class ConsOOPExercise[+A](h: A, t: MyOOPExerciseList[A]) extends MyOOPExerciseLi
 
 
   //Exercise3
-  def map[B](transformer: MyTransformer[A, B]): MyOOPExerciseList[B] = {
+  def map[B](transformer: MyTransformer[A, B]): MyFPExerciseList[B] = {
     //the output is a Cons, where the head is going to be transformed by the transformer
-    //new ConsOOPExercise(transformer.transform(h), ... ) -> head of the result
-    //new ConsOOPExercise(.. , t.map(transformer)) -> recursive call
-    new ConsOOPExercise(transformer transform (h), t.map(transformer))
+    //new ConsFPExercise(transformer.transform(h), ... ) -> head of the result
+    //new ConsFPExercise(.. , t.map(transformer)) -> recursive call
+    new ConsFPExercise(transformer transform (h), t.map(transformer))
   }
 
   /*
   How map works
   lets say we have list[1,2,3]
   and we are going to do list[1,2,3].map(n*2)
-  = new ConsOOPExercise(2, [2,3].map(n*2)) -> head of list is "1", multiply by 2 AND the tail is [2,3).map(n*2)
-  = new ConsOOPExercise(2, new ConsOOPExercise(4, [3].map(n*2))) -> head of list is "2", multiply by 2 AND the tail is [3,3).map(n*2)
-  = new ConsOOPExercise(2,4, new ConsOOPExercise(6, EmptyOOPExercise.map(n*2)))
-  = new ConsOOPExercise(2, new ConsOOPExercise(4, new ConsOOPExercise(6, EmptyOOPExercise))))
+  = new ConsFPExercise(2, [2,3].map(n*2)) -> head of list is "1", multiply by 2 AND the tail is [2,3).map(n*2)
+  = new ConsFPExercise(2, new ConsFPExercise(4, [3].map(n*2))) -> head of list is "2", multiply by 2 AND the tail is [3,3).map(n*2)
+  = new ConsFPExercise(2,4, new ConsFPExercise(6, EmptyFPExercise.map(n*2)))
+  = new ConsFPExercise(2, new ConsFPExercise(4, new ConsFPExercise(6, EmptyFPExercise))))
 
   * */
 
 
-  def filter(predicate: MyPredicate[A]): MyOOPExerciseList[A] = {
+  def filter(predicate: MyPredicate[A]): MyFPExerciseList[A] = {
     //testing if head satisfies the predicate (if predicate.head passes the test)
     //if passes the test, head, "h" will be included in the result, so must return "new Cons(h)" with the predicate so the tail needs to be filtered and the to be passed in as the result. so we have   new Cons(h,t.filter(predicate))
     //basically if head passes the predicate, it will be included in the result, so the result will be certainly a "cons with the head". Te tail will be filtered with a predicate,so we don't know what that will return (might be an empty list, but we will just delegate to the recursive call with filter
-    if (predicate.test(h)) new ConsOOPExercise(h, t.filter(predicate))
+    if (predicate.test(h)) new ConsFPExercise(h, t.filter(predicate))
     //if the head does not pass, can not be returned, only the predicate
     else t.filter(predicate)
   }
@@ -212,23 +212,23 @@ class ConsOOPExercise[+A](h: A, t: MyOOPExerciseList[A]) extends MyOOPExerciseLi
   let's evaluate the tail [2,3]
   ->[2,3].filter(n%2 == 0)
   2 is predicate
-  return new ConsOOPExercise(2, [3].filter(n%2 == 0))
-  new ConsOOPExercise(2, EmptyOOPExercise.filter(n%2 == 0))
-  = new ConsOOPExercise(2, EmptyOOPExercise)
+  return new ConsFPExercise(2, [3].filter(n%2 == 0))
+  new ConsFPExercise(2, EmptyFPExercise.filter(n%2 == 0))
+  = new ConsFPExercise(2, EmptyFPExercise)
   * */
 
 
   /*
   [1,2] ++ [3,4,5]
-  = new  ConsOOPExercise(1, [2] ++ [3,4,5])
-  = new  ConsOOPExercise(1, new ConsOOPExercise(2, Empty ++[3,4,5]))
-  = new  ConsOOPExercise(1, new ConsOOPExercise(2, new  ConsOOPExercise(3, new  ConsOOPExercise(4, =ew ConsOOPExercise(5)))))
+  = new  ConsFPExercise(1, [2] ++ [3,4,5])
+  = new  ConsFPExercise(1, new ConsFPExercise(2, Empty ++[3,4,5]))
+  = new  ConsFPExercise(1, new ConsFPExercise(2, new  ConsFPExercise(3, new  ConsFPExercise(4, =ew ConsFPExercise(5)))))
    */
 
-  def ++[B >: A](list: MyOOPExerciseList[B]): MyOOPExerciseList[B] = new ConsOOPExercise(h, t ++ list)
+  def ++[B >: A](list: MyFPExerciseList[B]): MyFPExerciseList[B] = new ConsFPExercise(h, t ++ list)
 
 
-  def flatMap[B](transformer: MyTransformer[A, MyOOPExerciseList[B]]): MyOOPExerciseList[B] = {
+  def flatMap[B](transformer: MyTransformer[A, MyFPExerciseList[B]]): MyFPExerciseList[B] = {
     {
       transformer.transform(h) ++ t.flatMap(transformer)
     }
