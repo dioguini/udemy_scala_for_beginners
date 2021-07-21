@@ -245,7 +245,7 @@ class ConsOOPExercise[+A](h: A, t: MyOOPExerciseList[A]) extends MyOOPExerciseLi
 }
 
 
-/*
+
 trait MyPredicate[-T] {
   def test(Elem: T): Boolean
 }
@@ -254,8 +254,6 @@ trait MyPredicate[-T] {
 //Exercise 2
 trait MyTransformer[-A, B] { //if A is not contravariant, def map wont work
   def transform(Elem: A): B
-
- */
 }
 
 
