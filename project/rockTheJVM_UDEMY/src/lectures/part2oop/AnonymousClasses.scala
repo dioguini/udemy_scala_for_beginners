@@ -1,6 +1,6 @@
 package lectures.part2oop
 
-object AnonymousClasses extends App {
+object  AnonymousClasses extends App {
 
   abstract class Animal {
     def eat: Unit
