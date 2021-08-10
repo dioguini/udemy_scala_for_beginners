@@ -2,8 +2,8 @@ package exercises
 
 
 object Generics extends App {
-  val listOfIntegers: MyCovarianceList[Int] = new ConsCovariance(1, new ConsCovariance(2, new ConsCovariance(3, EmptyCovariance)))
-  val listOfStrings: MyCovarianceList[String] = new ConsCovariance("Hello", new ConsCovariance("everyone", EmptyCovariance))
+  val listOfIntegers: MyList_Covariance[Int] = new Cons_Covariance(1, new Cons_Covariance(2, new Cons_Covariance(3, Empty_Covariance)))
+  val listOfStrings: MyList_Covariance[String] = new Cons_Covariance("Hello", new Cons_Covariance("everyone", Empty_Covariance))
   println(listOfIntegers.toString)
   println(listOfStrings.toString)
 
@@ -13,20 +13,20 @@ object Generics extends App {
 
 
 /**
- * The class below, can be compared with MyCovarianceList, on this package.
+ * The class below, can be compared with MyList_Covariance, on this package.
  */
 
-abstract class MyCovarianceList [+A] {
+abstract class MyList_Covariance [+A] {
   // This represents an immutable List, BECAUSE we are not modifying this instance, BUT YES returning a new List
   // The methods that tells us that above, are "add" and "tail", because they RETURN A NEW LIST. The other ones, are just a simple "select"/"definition" of something
 
   def head: A
 
-  def tail: MyCovarianceList[A]
+  def tail: MyList_Covariance[A]
 
-  def isEmptyCovariance: Boolean
+  def isEmpty_Covariance: Boolean
 
-  def add[B >: A](element: B): MyCovarianceList[B] //same as the Cats, Dogs and Animal example. See "add" method on part2oop.Generics
+  def add[B >: A](element: B): MyList_Covariance[B] //same as the Cats, Dogs and Animal example. See "add" method on part2oop.Generics
 
   def printElements: String
 
@@ -44,37 +44,37 @@ abstract class MyCovarianceList [+A] {
 
 /*
 Lets see the below declarations:
-  val listOfIntegers: MyCovarianceList[Int] = EmptyCovariance
-  val listOfStrings: MyCovarianceList[String] = EmptyCovariance
-  "EmptyCovariance" should be a proper value for both types of lists of Int and String
+  val listOfIntegers: MyList_Covariance[Int] = Empty_Covariance
+  val listOfStrings: MyList_Covariance[String] = Empty_Covariance
+  "Empty_Covariance" should be a proper value for both types of lists of Int and String
   But how do we do that?
 
 We're going to use "Nothing" below" because ??????
 * */
-object EmptyCovariance extends MyCovarianceList[Nothing] {
-  def head: Nothing = throw new NoSuchElementException //does not make sense for an EmptyCovariance list...
+object Empty_Covariance extends MyList_Covariance[Nothing] {
+  def head: Nothing = throw new NoSuchElementException //does not make sense for an Empty_Covariance list...
 
-  def tail: MyCovarianceList[Nothing] = throw new NoSuchElementException //does not make sense for an EmptyCovariance list...
+  def tail: MyList_Covariance[Nothing] = throw new NoSuchElementException //does not make sense for an Empty_Covariance list...
 
-  def isEmptyCovariance: Boolean = true
+  def isEmpty_Covariance: Boolean = true
 
-  def add[B >: Nothing](element: B): MyCovarianceList[B] = new ConsCovariance(element, EmptyCovariance) //when we add an element for the first time, list just have 1 element. So, "element" param is the head, and the tail of the list is EmptyCovariance object
+  def add[B >: Nothing](element: B): MyList_Covariance[B] = new Cons_Covariance(element, Empty_Covariance) //when we add an element for the first time, list just have 1 element. So, "element" param is the head, and the tail of the list is Empty_Covariance object
 
   def printElements: String = ""
 
 }
 
-class ConsCovariance[+A](h: A, t: MyCovarianceList[A]) extends MyCovarianceList[A] { //"ConsCovariance" must be Covariant, accordingly MyCovarianceList
+class Cons_Covariance[+A](h: A, t: MyList_Covariance[A]) extends MyList_Covariance[A] { //"Cons_Covariance" must be Covariant, accordingly MyList_Covariance
   def head: A = h
 
-  def tail: MyCovarianceList[A] = t
+  def tail: MyList_Covariance[A] = t
 
-  def isEmptyCovariance: Boolean = false
+  def isEmpty_Covariance: Boolean = false
 
-  def add[B >: A](element: B): MyCovarianceList[B] = new ConsCovariance(element, this) //the element is the one added, and the tail is the list itself ("this")
+  def add[B >: A](element: B): MyList_Covariance[B] = new Cons_Covariance(element, this) //the element is the one added, and the tail is the list itself ("this")
 
   def printElements: String = {
-    if (t.isEmptyCovariance) "" + h
+    if (t.isEmpty_Covariance) "" + h
     else {
       h + " " + t.printElements
     }

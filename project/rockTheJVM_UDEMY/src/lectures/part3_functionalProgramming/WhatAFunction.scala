@@ -62,18 +62,31 @@ object WhatAFunction extends App {
   */
 
   //1.  Function takes 2 strings and concatenates them
-  def concatenator: (String, String) => String = new Function2[String, String, String]{
-    override def apply(a: String, b: String): String = a+b
+  def concatenator: (String, String) => String = new Function2[String, String, String] {
+    override def apply(a: String, b: String): String = a + b
   }
-  println(concatenator("string1_","string2_"))
+
+  println(concatenator("string1_", "string2_"))
 
 
   //2.  transform current MyPredicate and MyTransformer into Function Types
-  // --> se
+  // --> check exercies.MyList_Function.scala
 
-  //3. define function which takes an int and returns another function which takes an int and returns an int
+  //3. define function which takes an int and returns another function which takes an int and returns an int --> using high order functions (receives a function returns a function)
+  //Function1[Int, Function1[Int, Int]]
+
+  val superAdder: Function1[Int, Function1[Int, Int]] = new Function1[Int, Function1[Int, Int]] {
+    override def apply(x: Int): Function1[Int, Int] = new Function1[Int, Int] { //x is visisble for functions defined below
+      override def apply(y: Int): Int = x + y
+    }
+  }
 
 
+  //tenho sempre que fazer dest amaneira!?
+  val adder3 = superAdder(3) //adder3 is a new function, and returns and Int
+  println(adder3(4))
+
+  println(superAdder(3)(4)) //curried function --> property that can be called with multiple params list -- faz mais sentido esta maneira que a de cima
 
 }
 
