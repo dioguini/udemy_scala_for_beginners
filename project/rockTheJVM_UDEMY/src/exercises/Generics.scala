@@ -64,7 +64,7 @@ object Empty_Covariance extends MyList_Covariance[Nothing] {
 
 }
 
-class Cons_Covariance[+A](h: A, t: MyList_Covariance[A]) extends MyList_Covariance[A] { //"Cons_Covariance" must be Covariant, accordingly MyList_Covariance
+case class Cons_Covariance[+A](h: A, t: MyList_Covariance[A]) extends MyList_Covariance[A] { //"Cons_Covariance" must be Covariant, accordingly MyList_Covariance
   def head: A = h
 
   def tail: MyList_Covariance[A] = t

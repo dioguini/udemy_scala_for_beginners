@@ -1,6 +1,6 @@
 package lectures.part4_PatternMatching
 
-import exercises.MyList
+import exercises._
 
 object AllThePatterns extends App {
 
@@ -39,11 +39,11 @@ object AllThePatterns extends App {
   //Pattern Matching can be nested
 
   // 4 - case classes (most poowerful of pattern matching) - usually called as constructor pattern
-  val aList: MyList[Int] = Cons(1, Cons(2, Empty))
+  val aList: MyList_Covariance[Int] = new Cons_Covariance(0, Cons_Covariance(2, Empty_Covariance))
   val matchAList = aList match {
-    case Empty =>
-    case Cons(head, tail) => //head and tail are the "variables" of this pattern matching, head is "1" and tail is "Cons(2, Empty)"
-    case Cons(head, Cons(subhead, subtail)) => //head is 1, subhead is "2" and subtail is "Empty"
+    case Empty_Covariance =>
+    case Cons_Covariance(head, tail) => //head and tail are the "variables" of this pattern matching, head is "1" and tail is "Cons(2, Empty)"
+    case Cons_Covariance(head, Cons_Covariance(subhead, subtail)) => //head is 1, subhead is "2" and subtail is "Empty"
     // PatternMatching can be nested with Case Classes
   }
 
@@ -65,20 +65,20 @@ object AllThePatterns extends App {
 
   // 7 - name binding
   val nameBindingMatch = aList match {
-    case nonEmptyList@Cons(_, _) => // "nonEmptyList" names a pattern (which is the "name binding" and makes us use the name later OR here on the return expresison, like we did with variables earlier. Name binding is much powerful because we can name entire patterns
+    case nonEmptyList@Cons_Covariance(_, _) => // "nonEmptyList" names a pattern (which is the "name binding" and makes us use the name later OR here on the return expresison, like we did with variables earlier. Name binding is much powerful because we can name entire patterns
     //name binding works inside nested patterns
-    case Cons(1, rest@Cons(2, _)) => //"rest" @ is inside a nested pattern
+    case Cons_Covariance(1, rest@Cons_Covariance(2, _)) => //"rest" @ is inside a nested pattern
   }
 
   // 8 - multi patterns
-  val multipattern = alist match {
-    case Empty | Cons(0, 1) => //compound pattern (multi-pattern). it is possible to chain multiple patterns with "|" -> useful when we want to return the same expression to multiple patterns
+  val multipattern = aList match {
+    case Empty_Covariance | Cons_Covariance(0, _) => //compound pattern (multi-pattern). it is possible to chain multiple patterns with "|" -> useful when we want to return the same expression to multiple patterns
   }
 
 
   // 9 - if guards
   val secondElementSpecial = aList match {
-    case Cons(_, Cons(specialElement, _)) if specialElement % 2 == 0 => // only if specialElement % 2 == 0 pattern will be evaluated
+    case Cons_Covariance(_, Cons_Covariance(specialElement, _)) if specialElement % 2 == 0 => // only if specialElement % 2 == 0 pattern will be evaluated
 
   }
 

@@ -31,6 +31,9 @@ object BracelessSyntax {
     else "smaller"
 
 
+  /*
+
+
   // scala 3 -> Introduced "then" keyword
   //need correct identation in order to remove "{" and "}"
   val anIfExpressions_v4 =
@@ -148,5 +151,5 @@ object BracelessSyntax {
 
 
 
-
+*/
 }
